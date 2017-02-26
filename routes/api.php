@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-   return $request->user();
+Route::group(['middleware' => 'auth:api'], function () {
+    // Route::get('user', 'UserController@index');
+    // Route::get('user/current', 'UserController@getCurrent');
+    // Route::get('user/{id}', 'UserController@show');
+
+    Route::resource('class', 'ClassController', ['except' => ['create','edit']]);
+    Route::resource('student', 'StudentController', ['except' => ['create','edit']]);
 });
 
-//Route::resource('user/index', 'UserController', [ 'parameters' => ['id' => 'user'] ]);
 
-
-// User routes
-Route::get('user', 'UserController@index');
-Route::get('user/{id}', 'UserController@show');
