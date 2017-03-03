@@ -15,7 +15,7 @@ class ClassController extends Controller
      */
     public function index()
     {
-        return response()->json(mClass::all());
+        return response()->json(mClass::with('students')->get());
     }
 
     /**
@@ -26,7 +26,10 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $class = (new mClass())->fill($request->all());
+        $class->save();
+
+        return response()->json($class);
     }
 
     /**
@@ -37,7 +40,7 @@ class ClassController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(mClass::findOrFail($id));
     }
 
     /**
@@ -49,7 +52,12 @@ class ClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $class = mClass::findOrFail($id);
+        $class->id = $request->input('new_id');
+
+        $class->save();
+
+        return response()->json($class);
     }
 
     /**
@@ -60,6 +68,9 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $class = mClass::findOrFail($id);
+        $class->delete();
+
+        return response()->json($class);
     }
 }
