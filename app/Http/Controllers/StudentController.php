@@ -71,7 +71,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Student::findOrFail($id));
     }
 
     /**
@@ -83,7 +83,14 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->class_id = $request->input('class_id');
+        $student->first_name = $request->input('first_name');
+        $student->last_name = $request->input('last_name');
+
+        $student->save();
+
+        return response()->json($student);
     }
 
     /**
@@ -94,6 +101,9 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->delete();
+
+        return response()->json($student);
     }
 }
